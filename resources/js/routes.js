@@ -9,6 +9,7 @@ import ProductLayout from './components/pages/product-page.vue';
 import AddProductLayout from './components/pages/add-product.vue';
 import OrderLayout from './components/pages/order-page.vue';
 import AddOrderLayout from './components/pages/add-order.vue';
+import OrderSummary from './components/pages/order-summary.vue';
 Vue.use(VueRouter);
 
 const routes = [
@@ -42,6 +43,11 @@ const routes = [
 	{
 		path : '/add-order',
 		component : AddOrderLayout
+	},
+	{
+		path : '/order-summary/:id?',
+		component : OrderSummary,
+		name : 'order-summary'
 	}
 
 

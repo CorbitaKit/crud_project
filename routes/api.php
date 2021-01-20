@@ -49,3 +49,5 @@ Route::delete('/delete-product/{id}','ProductController@destroy');
 
 Route::post('/create-order','OrderController@store');
 Route::get('/get-orders','OrderController@getOrders');
+
+Route::get('/get-order/{id}','OrderController@getOrder');

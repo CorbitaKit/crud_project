@@ -54,4 +54,11 @@ class OrderController extends Controller
     	}
     }
 
+
+    public function getOrder($id){
+    	$order = Order::with('customer','ordered_products','ordered_products.product')->where('id',$id)->first();
+
+    	return response(json_encode($order),200);
+    }
+
 }

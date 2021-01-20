@@ -12,4 +12,8 @@ class Order extends Model
     public function customer(){
     	return $this->hasOne('App\Customer','id','customer_id');
     }
+
+    public function ordered_products(){
+    	return $this->hasMany('App\OrderedProduct','order_id');
+    }
 }

@@ -4,7 +4,7 @@
 			<div class="d-sm-flex align-items-center justify-content-between mb-4">
 	        	<h1 class="h3 mb-0 text-gray-800">Products</h1>
 	            
-	            <router-link to="/add-product" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+	            <router-link to="/add-product" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" v-if="is_display">
 	            	<i class="fas fa-cart-plus fa-m text-white-50"></i> Add new Product
 	            </router-link>
 	        </div>
@@ -82,12 +82,18 @@
 
 		data(){
 			return{
-				products : []
+				products : [],
+				is_display : false
 			}
 		},
 
 		created(){
 			this.fetchProducts()
+			if(this.$route.path == '/dashboard'){
+				this.is_display = false
+			}else if(this.$route.path == '/add-product'){
+				this.is_display = true
+			}
 		},
 
 		methods : {

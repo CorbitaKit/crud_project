@@ -1,10 +1,11 @@
 <template>
 	<div>
 		<el-card class="box-card">
+
 			<div class="d-sm-flex align-items-center justify-content-between mb-4">
 	        	<h1 class="h3 mb-0 text-gray-800">Orders</h1>
 	            
-	            <router-link to="/add-order" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+	            <router-link to="/add-order" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" v-if="is_display">
 	            	<i class="fas fa-cart-plus fa-m text-white-50"></i> Add new order
 	            </router-link>
 	        </div>
@@ -54,7 +55,10 @@
 	          			<el-button
 	         				size="mini"
 	          				type="primary"
-	          				@click="handleDelete(scope.row.id)">View Order Summary</el-button>
+	          				@click="viewSummary(scope.row.id)">View Order Summary</el-button>
+	          			<el-button
+	         				size="mini"
+	          				type="success">Approve</el-button>
 	      			</template>
 	    		</el-table-column>
 	  		</el-table>
@@ -72,11 +76,21 @@
 		data(){
 			return{
 				orders : [],
+				is_display : false
 			}
 		},
 
 		created(){
 			this.fetchOrders()
+			
+			if(this.$route.path == '/dashboard'){
+				this.is_display = false
+				
+			}else if(this.$route.path == '/order'){
+				this.is_display = true
+				
+			}
+
 		},
 
 		methods : {
@@ -86,6 +100,10 @@
 					this.orders = response.data
 				})
 			},
+
+			viewSummary(id){
+				this.$router.push({name : 'order-summary', params : {orderId : id}})
+			}
 
 			// handleEdit(id){
 			// 	this.$router.push({name : 'add-customer',params : {customerId : id}})

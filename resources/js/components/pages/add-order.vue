@@ -128,7 +128,7 @@
 
 			handleChange(i,value){
 
-				console.log(value)
+			
 				this.order.order_products[i].total = this.order.order_products[i].price*this.order.order_products[i].quantity
 
 				
