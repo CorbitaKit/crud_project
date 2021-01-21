@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DB;
 use App\Order;
 use App\OrderedProduct;
+use App\Product;
 class OrderController extends Controller
 {
 
@@ -39,6 +40,29 @@ class OrderController extends Controller
     	}
     }
 
+
+    public function approveOrder($id){
+        $order = Order::findOrFail($id);
+
+        $order->update(['status' => 'Approved']);
+
+        return response('updated',200);
+    }
+
+
+    public function getApprovedOrders(){
+
+        $orders = Order::where('status','Approved')->get();
+
+        return response(json_encode($orders),200);
+    }
+
+    public function getPendingOrders(){
+        $orders = Order::where('status','Pending')->get();
+
+        return response(json_encode($orders),200);
+    }
+
     private function saveOrderedData($request, $id){
 
     	foreach ($request->order_products as $products => $value) {
@@ -50,8 +74,21 @@ class OrderController extends Controller
     			'product_id' => $value['value']
     		);
 
+
+
     		OrderedProduct::create($data);
+
+    		$this->updateProductQuantity($value);
     	}
+    }
+
+
+    private function updateProductQuantity($value){
+
+    	$product = Product::findOrFail($value['value']);
+
+    	$product->update(['quantity' => $value['original_quantity'] - $value['quantity']]);
+
     }
 
 

@@ -51,3 +51,9 @@ Route::post('/create-order','OrderController@store');
 Route::get('/get-orders','OrderController@getOrders');
 
 Route::get('/get-order/{id}','OrderController@getOrder');
+
+Route::put('/approve_order/{id}','OrderController@approveOrder');
+
+Route::get('/get-approved-orders','OrderController@getApprovedOrders');
+
+Route::get('/get-pending-orders','OrderController@getPendingOrders');

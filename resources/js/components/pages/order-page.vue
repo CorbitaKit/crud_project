@@ -56,9 +56,18 @@
 	         				size="mini"
 	          				type="primary"
 	          				@click="viewSummary(scope.row.id)">View Order Summary</el-button>
-	          			<el-button
+	          			<el-button 
+	          				v-if="scope.row.status == 'Pending'"
 	         				size="mini"
+	         				@click ="approveOrder(scope.row.id)"
 	          				type="success">Approve</el-button>
+	          			
+	          			<el-button 
+	          				v-else
+	         				size="mini"
+	         				:disabled="true"
+	         				
+	          				type="warning">Approved</el-button>
 	      			</template>
 	    		</el-table-column>
 	  		</el-table>
@@ -103,7 +112,32 @@
 
 			viewSummary(id){
 				this.$router.push({name : 'order-summary', params : {orderId : id}})
-			}
+			},
+
+			approveOrder(id){
+				 	Swal.fire({
+					title: 'Are you sure?',
+				  	text: "You want to approve this order?",
+				  	icon: 'warning',
+				  	showCancelButton: true,
+				  	confirmButtonColor: '#3085d6',
+				  	cancelButtonColor: '#d33',
+				  	confirmButtonText: 'Yes, approve it!'
+					}).then((result) => {
+				  		if (result.isConfirmed) {
+				    		axios.put('/api/approve_order/'+id)
+				    		.then(()=>{
+				    			Swal.fire(
+					      			'Approved!',
+					      			'Order has been approved.',
+					      			'success'
+				    			)
+
+				    			this.fetchOrders()
+				    		})	
+				  		}
+				})
+			},
 
 			// handleEdit(id){
 			// 	this.$router.push({name : 'add-customer',params : {customerId : id}})
